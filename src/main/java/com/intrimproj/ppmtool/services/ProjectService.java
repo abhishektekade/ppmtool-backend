@@ -39,7 +39,7 @@ public class ProjectService {
 //        return projectRepository.save(project);
 
     }
-    public Project findByIdentifier(String projectId){
+    public Project findProjectByIdentifier(String projectId){
 
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
 
