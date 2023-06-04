@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.intrimproj.ppmtool.security.SecurityConstants.TOKEN_PREFIX;
 
-@CrossOrigin("http://localhost:3000/")
+//@CrossOrigin("http://localhost:3000/")
+@CrossOrigin("*")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

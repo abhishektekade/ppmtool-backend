@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/backlog")
-@CrossOrigin()
+@CrossOrigin("*")
 public class BacklogController {
     @Autowired
     private ProjectTaskService projectTaskService;
