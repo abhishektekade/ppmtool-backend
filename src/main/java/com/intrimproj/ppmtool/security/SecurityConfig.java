@@ -26,7 +26,7 @@ import static com.intrimproj.ppmtool.security.SecurityConstants.SIGN_UP_URLS;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity(securedEnabled = true,jsr250Enabled = true,prePostEnabled = true)
+@EnableMethodSecurity(securedEnabled = false,jsr250Enabled = false,prePostEnabled = false)
 public class SecurityConfig {
 
     @Autowired
