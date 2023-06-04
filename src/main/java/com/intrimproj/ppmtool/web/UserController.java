@@ -22,7 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
-//import com.intrimproj.ppmtool.security.SecurityConstants.TOKEN_PREFIX;
+
+import static com.intrimproj.ppmtool.security.SecurityConstants.TOKEN_PREFIX;
 
 @RestController
 @RequestMapping("/api/users")
@@ -40,7 +41,7 @@ public class UserController {
     @Autowired
     private JwtTokenProvider tokenProvider;
 
-    @Autowired(required=true)
+    @Autowired
     private AuthenticationManager authenticationManager;
 
 
@@ -58,7 +59,7 @@ public class UserController {
         );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwt =  tokenProvider.generateToken(authentication);
+        String jwt = TOKEN_PREFIX +  tokenProvider.generateToken(authentication);
 
         return ResponseEntity.ok(new JWTLoginSucessReponse(true, jwt));
     }
