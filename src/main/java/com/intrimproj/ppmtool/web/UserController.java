@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.intrimproj.ppmtool.security.SecurityConstants.TOKEN_PREFIX;
 
 //@CrossOrigin("http://localhost:3000/")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -43,7 +43,6 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
 
-
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest, BindingResult result){
         ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
@@ -61,7 +60,6 @@ public class UserController {
 
         return ResponseEntity.ok(new JWTLoginSucessReponse(true, jwt));
     }
-
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody User user, BindingResult result){
         // Validate passwords match

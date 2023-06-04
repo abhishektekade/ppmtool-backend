@@ -17,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin("*")
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 @RestController
 @RequestMapping("/api/project")
 public class ProjectController {
@@ -37,13 +37,11 @@ public class ProjectController {
         Project project1 = projectService.saveOrUpdateProject(project, principal.getName());
         return new ResponseEntity<Project>(project, HttpStatus.CREATED);
     }
-
     @GetMapping("/{projectId}")
     public ResponseEntity<?> getProjectById(@PathVariable String projectId, Principal principal){
         Project project = projectService.findProjectByIdentifier(projectId, principal.getName());
         return new ResponseEntity<Project>(project,HttpStatus.OK);
     }
-
     @GetMapping("/all")
     public Iterable<Project> getAllProjects(Principal principal){
         return projectService.findAllProjects(principal.getName());

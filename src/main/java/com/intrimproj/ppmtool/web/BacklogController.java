@@ -17,14 +17,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/backlog")
-@CrossOrigin("*")
+@CrossOrigin(origins = "*",allowedHeaders = "*")
 public class BacklogController {
     @Autowired
     private ProjectTaskService projectTaskService;
 
     @Autowired
     private MapValidationErrorService mapValidationErrorService;
-
+    @CrossOrigin("*")
     @PostMapping("/{backlog_id}")
     public ResponseEntity<?> addPTtoBacklog(@Valid @RequestBody ProjectTask projectTask, BindingResult result, @PathVariable String backlog_id, Principal principal){
 
@@ -33,17 +33,19 @@ public class BacklogController {
         ProjectTask projectTask1 = projectTaskService.addProjectTask(backlog_id, projectTask, principal.getName());
         return new ResponseEntity<ProjectTask>(projectTask1, HttpStatus.CREATED);
     }
-
+    @CrossOrigin("*")
     @GetMapping("/{backlog_id}")
     public Iterable<ProjectTask> getProjectBacklog(@PathVariable String backlog_id, Principal principal){
 
         return projectTaskService.findBacklogById(backlog_id, principal.getName());
     }
+    @CrossOrigin("*")
     @GetMapping("/{backlog_id}/{pt_id}")
     public ResponseEntity<?> getProjectTask(@PathVariable String backlog_id, @PathVariable String pt_id, Principal principal){
         ProjectTask projectTask = projectTaskService.findPTByProjectSequence(backlog_id,pt_id, principal.getName());
         return new ResponseEntity<ProjectTask>(projectTask, HttpStatus.OK);
     }
+    @CrossOrigin("*")
     @PatchMapping("/{backlog_id}/{pt_id}")
     public ResponseEntity<?> updateProjectTask(@Valid @RequestBody ProjectTask projectTask, BindingResult result, @PathVariable String backlog_id,@PathVariable String pt_id, Principal principal){
 
@@ -52,7 +54,7 @@ public class BacklogController {
         ProjectTask updatedTask = projectTaskService.updateByProjectSequence(projectTask,backlog_id,pt_id, principal.getName());
         return new ResponseEntity<ProjectTask>(updatedTask,HttpStatus.OK);
     }
-
+    @CrossOrigin("*")
     @DeleteMapping("/{backlog_id}/{pt_id}")
     public ResponseEntity<?> deleteProjectTask(@PathVariable String backlog_id,@PathVariable String pt_id, Principal principal){
         projectTaskService.deletePTByProjectSequence(backlog_id,pt_id, principal.getName());
