@@ -23,10 +23,12 @@ public class ProjectTaskService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask){
-        try {
+    @Autowired
+    private ProjectService projectService;
+
+    public ProjectTask addProjectTask(String projectIdentifier, ProjectTask projectTask, String username){
             //project task to be added to a project and !=null
-            Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
+            Backlog backlog =  projectService.findProjectByIdentifier(projectIdentifier, username).getBacklog();      //backlogRepository.findByProjectIdentifier(projectIdentifier);
 
 
             //set the backlog to project task
@@ -40,24 +42,22 @@ public class ProjectTaskService {
             //Add Sequence to project Task
             projectTask.setProjectSequence(projectIdentifier+"-"+BacklogSequence);
             projectTask.setProjectIdentifier(projectIdentifier);
-            //intial prrority of status
-            if (projectTask.getPriority()==null){
-                projectTask.setPriority(3);
-            }
+
+
             //Initial status is null
             if (projectTask.getStatus()==""||projectTask.getStatus()==null){
                 projectTask.setStatus("TO_DO");
             }
-            return projectTaskRepository.save(projectTask);
-        }catch (Exception e){
-            throw new ProjectNotFoundException("Project Not Found");
-        }
-    }
-        public Iterable<ProjectTask>findBacklogById(String id){
-            Project project = projectRepository.findByProjectIdentifier(id);
-            if (project==null){
-                throw new ProjectNotFoundException("Project with ID :'"+id+"'does not exit");
+            //intial prrority of status
+            if (projectTask.getPriority()==null||projectTask.getPriority()==0){
+                projectTask.setPriority(3);
             }
+
+            return projectTaskRepository.save(projectTask);
+
+    }
+        public Iterable<ProjectTask>findBacklogById(String id, String username){
+            projectService.findProjectByIdentifier(id,username);
             return projectTaskRepository.findByProjectIdentifierOrderByPriority(id);
     }
     public ProjectTask findPTByProjectSequence(String backlog_id, String pt_id){
